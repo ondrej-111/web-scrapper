@@ -3,6 +3,8 @@ import configparser
 import csv
 import requests
 import os
+from lxml.html import fromstring
+
 
 def parse_input_args():
     parser = argparse.ArgumentParser(description='Input parameters.')
@@ -62,8 +64,12 @@ def google_search(search_input, proxy):
     return requests.get('https://www.google.com/search', params={'q': search_input}, proxies=proxy)
 
 
-def proxy_builder(proxies, index):
-    proxy = {}
-    if proxies['https'][index] == 'yes':
-        proxy['https'] = '%s:%s' % (proxies['ip'][index], proxies['port'][index])
-    return proxy
+def get_first_result(html):
+    parser = fromstring(html)
+
+    aes = parser.xpath('//body/div/div/div/div/a[1]')
+    if len(aes) > 0:
+        sub_a = aes[1].attrib['href'][len('/url?q='):]
+        return sub_a[:sub_a.find('&sa=U')]
+    else:
+        raise Exception('No results containing all your search terms were found.')
