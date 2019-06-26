@@ -1,7 +1,7 @@
 from flask_restplus import Api
 from flask import Blueprint
 
-from .main.google_search.google_search_controller import api as google_search_ns
+from app.main.google_search.controllers.google_search_controller import ns as google_search_ns
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 

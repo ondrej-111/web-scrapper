@@ -3,9 +3,6 @@ from flask_bcrypt import Bcrypt
 from base.Config import Config
 from base.helpers import get_bool
 
-from .config import config_by_name
-
-# db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
 

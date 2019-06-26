@@ -1,9 +1,7 @@
 import argparse
-import configparser
 import csv
-import requests
 import os
-from lxml.html import fromstring
+from base.Config import Config
 
 
 def get_bool(bool_value):
@@ -20,8 +18,7 @@ def parse_input_args():
 
 
 def get_config(args):
-    config = configparser.ConfigParser()
-    config.read('config.%s.ini' % args['env'])
+    config = Config(args['env'])
     return config
 
 
@@ -64,18 +61,3 @@ def read_csv(path):
             for name in reader.fieldnames:
                 d[name].append(row[name])
     return d
-
-
-def google_search(search_input, proxy):
-    return requests.get('https://www.google.com/search', params={'q': search_input}, proxies=proxy)
-
-
-def get_first_result(html):
-    parser = fromstring(html)
-
-    aes = parser.xpath('//body/div/div/div/div/a[1]')
-    if len(aes) > 0:
-        sub_a = aes[1].attrib['href'][len('/url?q='):]
-        return sub_a[:sub_a.find('&sa=U')]
-    else:
-        raise Exception('No results containing all your search terms were found.')

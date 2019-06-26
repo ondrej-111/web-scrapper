@@ -8,7 +8,7 @@ class Config:
     def __init__(self, env):
         if Config.__config is None:
             Config.__config = configparser.ConfigParser()
-            Config.__config.read(['config.default.ini', 'config.%s.ini' % env])
+            Config.__config.read(['config.default.ini', 'config.dev.ini'])
 
     @staticmethod
     def get(section, key):
