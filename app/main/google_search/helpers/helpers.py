@@ -10,6 +10,12 @@ def google_search(search_input, proxy):
     return requests.get('https://www.google.com/search', params={'q': search_input}, proxies=proxy)
 
 
+def google_search_crawlera(search_input):
+    return requests.get('https://www.google.com/search', params={'q': search_input}, proxies={
+        'http': Config.get('DEFAULT', 'crawlera_url')
+    })
+
+
 def get_first_result(html):
     parser = fromstring(html)
 

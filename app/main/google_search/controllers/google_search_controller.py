@@ -1,6 +1,6 @@
 from flask import request, abort
 from flask_restplus import Resource
-from ..helpers.helpers import google_search, get_first_result, get_random_proxy
+from ..helpers.helpers import google_search_crawlera, get_first_result
 
 from app.main.google_search.models.dto import SearchResultDto
 
@@ -21,8 +21,8 @@ class GoogleSearch(Resource):
         if query is None:
             abort(409, 'Input must contains query parameter.')
 
-        proxy = get_random_proxy()
-        result = google_search(query, proxy)
+        # proxy = get_random_proxy()
+        result = google_search_crawlera(query)
         if result.status_code != 200:
             abort(409, 'Proxy not work')
         url = get_first_result(result.text)
