@@ -1,10 +1,9 @@
 import os
 import firebase_admin
 import flask
-from flask import request, abort, jsonify
+from flask import request, abort, jsonify, make_response
 from helpers.helpers import google_search_crawlera, get_first_result, get_bool
 from helpers.Config import Config
-
 
 app = flask.Flask(__name__)
 
@@ -20,15 +19,15 @@ def google_search():
     try:
         request_json = request.json
     except:
-        abort(400, 'Body is required.')
+        abort(make_response(jsonify(message='Body is required.'), 400))
 
     query = request_json.get('query', None)
     if query is None:
-        abort(409, 'Input must contains query parameter.')
+        abort(make_response(jsonify(message='Input must contains query parameter.'), 409))
 
     result = google_search_crawlera(query)
     if result.status_code != 200:
-        abort(409, 'Proxy not work')
+        abort(make_response(jsonify(message='Proxy not work'), 409))
     url = get_first_result(result.text)
     return jsonify({'url': url})
 

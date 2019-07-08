@@ -1,6 +1,6 @@
 from lxml.html import fromstring
 import requests
-from flask import abort
+from flask import abort, make_response, jsonify
 from .Config import Config
 
 
@@ -29,6 +29,6 @@ def get_first_result(html):
             sub_a = aes[1].attrib['href'][len('/url?q='):]
             return sub_a[:sub_a.find('&sa=U')]
         else:
-            abort(409, 'No results founds.')
+            abort(make_response(jsonify(message='No results founds.'), 409))
     except IndexError:
-        abort(409, 'No results founds.')
+        abort(make_response(jsonify(message='No results founds.'), 409))
