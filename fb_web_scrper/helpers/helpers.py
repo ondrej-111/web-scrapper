@@ -4,6 +4,12 @@ from flask import abort
 from .Config import Config
 
 
+def get_bool(bool_value):
+    if bool_value in ['True', 'true', 1]:
+        return True
+    return False
+
+
 def google_search(search_input, proxy):
     return requests.get('https://www.google.com/search', params={'q': search_input}, proxies=proxy)
 
