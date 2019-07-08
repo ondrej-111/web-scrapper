@@ -2,6 +2,7 @@ from lxml.html import fromstring
 import requests
 from flask import abort, make_response, jsonify
 from .Config import Config
+from urllib.parse import unquote
 
 
 def get_bool(bool_value):
@@ -27,7 +28,7 @@ def get_first_result(html):
         aes = parser.xpath('//body/div/div/div/div/a[1]')
         if len(aes) > 0:
             sub_a = aes[1].attrib['href'][len('/url?q='):]
-            return sub_a[:sub_a.find('&sa=U')]
+            return unquote(sub_a[:sub_a.find('&sa=U')])
         else:
             abort(make_response(jsonify(message='No results founds.'), 409))
     except IndexError:
