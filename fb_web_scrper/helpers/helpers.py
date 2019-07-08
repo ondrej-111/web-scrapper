@@ -23,10 +23,12 @@ def google_search_crawlera(search_input):
 def get_first_result(html):
     parser = fromstring(html)
 
-    aes = parser.xpath('//body/div/div/div/div/a[1]')
-    if len(aes) > 0:
-        sub_a = aes[1].attrib['href'][len('/url?q='):]
-        return sub_a[:sub_a.find('&sa=U')]
-    else:
-        abort(409, 'No results containing all your search terms were found.')
-
+    try:
+        aes = parser.xpath('//body/div/div/div/div/a[1]')
+        if len(aes) > 0:
+            sub_a = aes[1].attrib['href'][len('/url?q='):]
+            return sub_a[:sub_a.find('&sa=U')]
+        else:
+            abort(409, 'No results founds.')
+    except IndexError:
+        abort(409, 'No results founds.')

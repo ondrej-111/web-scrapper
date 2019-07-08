@@ -15,12 +15,17 @@ config = Config(os.getenv('FLASK_ENV') or 'prod')
 @app.route('/api/search', methods=['POST'])
 def google_search():
     # get the google search first result
-    request_json = request.json
+
+    request_json = None
+    try:
+        request_json = request.json
+    except:
+        abort(400, 'Body is required.')
+
     query = request_json.get('query', None)
     if query is None:
         abort(409, 'Input must contains query parameter.')
 
-    # proxy = get_random_proxy()
     result = google_search_crawlera(query)
     if result.status_code != 200:
         abort(409, 'Proxy not work')
