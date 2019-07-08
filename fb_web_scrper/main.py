@@ -13,7 +13,7 @@ Config(os.getenv('FLASK_ENV') or 'prod')
 
 
 @app.route('/api/search', methods=['POST'])
-def create_hero():
+def google_search():
     # get the google search first result
     request_json = request.json
     query = request_json.get('query', None)
