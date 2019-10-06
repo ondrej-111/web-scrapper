@@ -1,3 +1,4 @@
+from flask_cors import CORS
 import os
 from flask_script import Manager
 
@@ -5,6 +6,7 @@ from app import blueprint
 from app.main import create_app
 
 app = create_app(os.getenv('FLASK_ENV') or 'dev')
+# CORS(app)
 app.register_blueprint(blueprint)
 
 app.app_context().push()

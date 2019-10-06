@@ -17,8 +17,8 @@ def google_search(search_input, proxy):
     return requests.get('https://www.google.com/search', params={'q': search_input}, proxies=proxy)
 
 
-def google_search_crawlera(search_input):
-    return requests.get('https://www.google.com/search', headers=USER_AGENT, params={'q': search_input}, proxies={
+def google_search_crawlera(search_input, search_engine):
+    return requests.get('https://www.google.{}/search'.format(search_engine), headers=USER_AGENT, params={'q': search_input, 'cr': 'AU'}, proxies={
         'http': 'http://{}'.format(Config.get('DEFAULT', 'crawlera_uri'))
     })
 
