@@ -1,12 +1,13 @@
 import os
 import firebase_admin
 import flask
+from flask_cors import CORS
 from flask import request, abort, jsonify, make_response
 from helpers.helpers import google_search_crawlera, get_first_result, get_bool
 from helpers.Config import Config
 
 app = flask.Flask(__name__)
-
+CORS(app)
 firebase_admin.initialize_app()
 config = Config(os.getenv('FLASK_ENV') or 'prod')
 
@@ -25,7 +26,9 @@ def google_search():
     if query is None:
         abort(make_response(jsonify(message='Input must contains query parameter.'), 409))
 
-    result = google_search_crawlera(query)
+    search_engine = request_json.get('search_engine', 'com.au')
+
+    result = google_search_crawlera(query, search_engine)
     if result.status_code != 200:
         abort(make_response(jsonify(message='Proxy not work'), 409))
     url = get_first_result(result.text)
