@@ -3,4 +3,4 @@ firebase-admin==2.13.0
 google-cloud-firestore==0.29.0
 lxml==4.3.4
 beautifulsoup4==4.7.1
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
